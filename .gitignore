@@ -5,6 +5,8 @@ Assets/_TerrainAutoUpgrade/*
 Assets/BuildReports/*
 Assets/BuildReports.meta
 DumpFiles/*
+Temp/*
+Logs/*
 DioramaKnight.sln
 Assembly-CSharp*.csproj
 obj/*/*.cache
