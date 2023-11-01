@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class BallObject : MonoBehaviour
 {
+    [SerializeField]
+    public Renderer myrenderer;
+
     // Start is called before the first frame update
     void Start()
     {
