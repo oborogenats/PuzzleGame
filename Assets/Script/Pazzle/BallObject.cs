@@ -7,6 +7,9 @@ public class BallObject : MonoBehaviour
     [SerializeField]
     public Renderer myrenderer;
 
+    [SerializeField]
+    public bool isTouch = false;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -16,18 +19,25 @@ public class BallObject : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (isTouch)
+        {
+            GetComponent<BallObject>().GetComponent<Renderer>().material.SetColor("_SubColor", new Color(0.5f, 0.5f, 0f,1f));
+        }
+        else
+        {
+            GetComponent<BallObject>().GetComponent<Renderer>().material.SetColor("_SubColor", new Color(0.0f, 0.0f, 0f,0f));
+        }
     }
 
     private void OnCollisionEnter(Collision other)
     {
         if(other.gameObject.tag == "Ball")
         {
-            Debug.Log("‚Ô‚Â‚©‚Á‚½I");
+            Debug.Log("ï¿½Ô‚Â‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½I");
         }
         else
         {
-            Debug.Log("ƒ{[ƒ‹‚¶‚á‚È‚¢‚Æ‚±‚ë‚É‚Ô‚Â‚©‚Á‚½I");
+            Debug.Log("ï¿½{ï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È‚ï¿½ï¿½Æ‚ï¿½ï¿½ï¿½É‚Ô‚Â‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½I");
         }
     }
         
