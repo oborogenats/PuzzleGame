@@ -7,6 +7,13 @@ public class TouchManager : MonoBehaviour
     [SerializeField]
     List<GameObject> touchBallList;
 
+    [SerializeField]
+    GameObject deleteObj;
+
+    [SerializeField]
+    ScoreManager scoreManager;
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -28,8 +35,17 @@ public class TouchManager : MonoBehaviour
                 //タッチしたボールが選択状態でないとき
                 if (h[0].collider.tag == "Ball" && !h[0].collider.GetComponent<BallObject>().isTouch)
                 {
-                    h[0].collider.GetComponent<BallObject>().isTouch = true;
-                    touchBallList.Add(h[0].collider.gameObject);
+                    if (h[0].collider.GetComponent<BallObject>().color == GameResources.BallColor.bomb)
+                    {
+                        //爆発！
+                        h[0].collider.GetComponent<BallObject>().Explosion(deleteObj);
+                    }
+                    else
+                    {
+                        h[0].collider.GetComponent<BallObject>().isTouch = true;
+                        touchBallList.Add(h[0].collider.gameObject);
+                    }
+                    
                 }
                     
             }
@@ -39,17 +55,30 @@ public class TouchManager : MonoBehaviour
         {
             if (touchBallList.Count != 0)
             {
-                //選択しているボールが0個でないとき→タッチしたとき
-                Ray ray = Camera.main.ScreenPointToRay(mousePos);
-                var h = Physics.RaycastAll(ray, 100.0f);
-                if (h.Length > 0)
+                if (touchBallList.Count != 0)
                 {
-                    if (h[0].collider.tag == "Ball"&& !h[0].collider.GetComponent<BallObject>().isTouch)
+                    Ray ray = Camera.main.ScreenPointToRay(mousePos);
+                    var h = Physics.RaycastAll(ray, 100.0f);
+                    if (h.Length > 0)
                     {
-                        h[0].collider.GetComponent<BallObject>().isTouch = true;
-                        touchBallList.Add(h[0].collider.gameObject);
+                        if (h[0].collider.tag == "Ball"
+                            && !h[0].collider.GetComponent<BallObject>().isTouch
+                            && touchBallList[0].GetComponent<BallObject>().color == h[0].collider.GetComponent<BallObject>().color)
+                        {
+                            h[0].collider.GetComponent<BallObject>().isTouch = true;
+                            touchBallList.Add(h[0].collider.gameObject);
+                        }
+                        else if(h[0].collider.tag == "Ball"
+                            && touchBallList[0].GetComponent<BallObject>().color != h[0].collider.GetComponent<BallObject>().color)
+                        {
+                            ReleaseObject();
+                        }
                     }
-
+                    else
+                    {
+                        //ボールをタッチしていない時は消去判定を行う
+                        ReleaseObject();
+                    }
                 }
             }
            
@@ -72,9 +101,15 @@ public class TouchManager : MonoBehaviour
 
             if (cnt >= 3)
             {
+                GameObject delObj = Instantiate(deleteObj);
+                delObj.transform.position = go.transform.position;
                 Destroy(go);
             }
         }
         touchBallList.Clear();
+        if(cnt>= 3)
+        {
+            scoreManager.AddScore((int)Mathf.Pow(2, cnt));
+        }
     }
 }
