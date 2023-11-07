@@ -4,62 +4,113 @@ using UnityEngine;
 using System;
 using System.Linq;
 using System.Diagnostics;
+using UnityEditor.Rendering;
 
 public class BallGenerator : MonoBehaviour
 {
 
     public List<GameObject> prefabList = new List<GameObject>();
 
-    int cnt = 0;
-    const int MAXCNT = 10;
+    public List<GameObject> generatedObjects = new List<GameObject>();
 
-    int generateCount = 0;
+    public float moveSpeed = 5f; // 移動速度の調整用
+    private bool isDragging = false;
+
 
     void Start()
     {
-
+        GenerateRandomObject();
     }
 
     void Update()
     {
-        cnt++;
-        cnt %= MAXCNT;
-        if (cnt == 0)
+        if (Input.GetMouseButtonUp(0)) // マウスの左クリックが押されているか確認
         {
-            generateCount++;
-            generateCount %= 10;
-
-            if (generateCount == 0)
+            if (isDragging == false)
             {
-                InstantiateRandomPrefab();
+                isDragging = true;
+                DropObjects();
+                Invoke("GenerateRandomObject", 2f);
+                isDragging = false;
+                
             }
+            else if (isDragging == true)
+            {
+                UnityEngine.Debug.Log(Time.time + ":呼び出せない…");
+            }
+
+
+
         }
+        // Aキーが押されたら左に移動
+        if (Input.GetKey(KeyCode.A))
+        {
+            transform.Translate(Vector3.left * moveSpeed * Time.deltaTime);
+        }
+
+        // Dキーが押されたら右に移動
+        if (Input.GetKey(KeyCode.D))
+        {
+            transform.Translate(Vector3.right * moveSpeed * Time.deltaTime);
+        }
+
     }
 
-    void InstantiateRandomPrefab()
+   
+
+    void GenerateRandomObject()
     {
-        // リストが空でないか確認
-        if (prefabList.Count > 0)
+        if (prefabList.Count == 0)
         {
-            // ランダムにインデックスを選択
-            int randomIndex = UnityEngine.Random.Range(0, prefabList.Count);
+            UnityEngine.Debug.Log("No object prefabs available for generation.");
+            return;
+        }
 
-            // ランダムに選んだPrefabを生成
-            GameObject randomPrefab = prefabList[randomIndex];
-            GameObject spawnedObject = Instantiate(randomPrefab, transform.position, Quaternion.identity);
 
-            // Rigidbodyコンポーネントを取得または追加
-            Rigidbody rigidbody = spawnedObject.GetComponent<Rigidbody>();
-            if (rigidbody == null)
+        // ランダムにオブジェクトを選択
+        int randomIndex = UnityEngine.Random.Range(0, prefabList.Count);
+        GameObject selectedPrefab = prefabList[randomIndex];
+        GameObject newObject = Instantiate(selectedPrefab);
+        newObject.transform.parent = this.transform;
+        newObject.transform.localPosition = Vector3.zero;
+
+        Rigidbody rb = newObject.GetComponent<Rigidbody>();
+        if (rb != null)
+        {
+            // 重力を有効にしてオブジェクトを落とす
+            rb.useGravity = false;
+        }
+
+        // 生成したオブジェクトをリストに追加
+        generatedObjects.Add(newObject);
+    }
+
+    void DropObjects()
+    {
+        foreach (GameObject obj in generatedObjects)
+        {
+            // Rigidbodyがアタッチされているか確認
+            Rigidbody rb = obj.GetComponent<Rigidbody>();
+            if (rb != null)
             {
-                rigidbody = spawnedObject.AddComponent<Rigidbody>();
-            }
+                // 重力を有効にしてオブジェクトを落とす
+                rb.useGravity = true;
 
-            // ランダムな角度と力を付けて落とす
-            rigidbody.AddForce(Quaternion.Euler(0, 0, UnityEngine.Random.Range(-60.0f, 60.0f)) * Vector3.down * 10f, ForceMode.Impulse);
+                
+                
+            }
+            StartCoroutine(UnparentAfterDrop(obj.transform, transform));
+
         }
-        else
-        {
-        }
+
+
+
+    }
+
+    IEnumerator UnparentAfterDrop(Transform child, Transform parent)
+    {
+        // 1フレーム待ってから親子関係を解除
+        yield return null;
+        child.parent = null;
     }
 }
