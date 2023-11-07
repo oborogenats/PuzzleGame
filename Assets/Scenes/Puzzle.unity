@@ -321,7 +321,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: -45, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 97.609985, y: -219.22998}
+  m_AnchoredPosition: {x: 97.61011, y: -219.22998}
   m_SizeDelta: {x: 500, y: 234.4}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &559183527
@@ -950,6 +950,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ballObj: {fileID: 476682591878862947, guid: 2ec1d047ab8a44e42a0a99d78a602745, type: 3}
+  prefabList:
+  - {fileID: 476682591878862947, guid: 2ec1d047ab8a44e42a0a99d78a602745, type: 3}
+  - {fileID: 6132099042613982266, guid: 91732611d3625ce4abc3c8ff47f844d9, type: 3}
+  - {fileID: 6132099042613982266, guid: b8c0b94d0517cbb49a64b55f19143fe5, type: 3}
+  - {fileID: 6132099042613982266, guid: 066b0022a47c2dc429d2ee819d801d05, type: 3}
+  - {fileID: 6132099042613982266, guid: b0a45f9ffd53ef44380e77972de8cd0b, type: 3}
 --- !u!4 &1525762592
 Transform:
   m_ObjectHideFlags: 0

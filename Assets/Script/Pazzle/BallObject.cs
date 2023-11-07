@@ -13,15 +13,13 @@ public class BallObject : MonoBehaviour
     [SerializeField]
     public GameResources.BallColor color;
 
-    [SerializeField]
     ScoreManager scoreManager;
 
 
     // Start is called before the first frame update
     void Start()
     {
-        ChangeColor();
-        GameObject go = GameObject.Find("ScoreManager");
+         GameObject go = GameObject.Find("ScoreManager");
         scoreManager = go.GetComponent<ScoreManager>();
     }
 

@@ -7,13 +7,13 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: eff_burst
-  m_Shader: {fileID: -6465566751694194690, guid: e514573ce88b0804ca0f7f1343e5ddba, type: 3}
+  m_Name: m_ball_red
+  m_Shader: {fileID: -6465566751694194690, guid: a5dbddcacc793384fb6ec851a17eb78d, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
   m_InvalidKeywords: []
-  m_LightmapFlags: 4
+  m_LightmapFlags: 2
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
@@ -23,10 +23,6 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
-    - _MainTex:
-        m_Texture: {fileID: 2800000, guid: 6cb9b03917658634f95d6105047a0db7, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
     - unity_Lightmaps:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -40,11 +36,14 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Ints: []
-    m_Floats: []
+    m_Floats:
+    - _QueueControl: 0
+    - _QueueOffset: 0
     m_Colors:
-    - _AdditiveColor: {r: 5.9921575, g: 5.9921575, b: 5.9921575, a: 0}
+    - _MainColor: {r: 1, g: 0, b: 0, a: 0}
+    - _SubColor: {r: 23.96863, g: 0, b: 0, a: 0}
   m_BuildTextureStacks: []
---- !u!114 &1504345223588486807
+--- !u!114 &139987021505434188
 MonoBehaviour:
   m_ObjectHideFlags: 11
   m_CorrespondingSourceObject: {fileID: 0}
