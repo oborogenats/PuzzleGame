@@ -8,21 +8,33 @@ using UnityEditor.Rendering;
 
 public class BallGenerator : MonoBehaviour
 {
+    [SerializeField]
+    AnimalAssets animalAssets;
 
-    public List<GameObject> prefabList = new List<GameObject>();
+    public static BallGenerator Instance { get; private set; }
+    public bool isNext { get; set; }
+    public int MaxBallNo { get; private set; }
 
+    private List<GameObject> prefabList = new List<GameObject>();
     public List<GameObject> generatedObjects = new List<GameObject>();
 
     public float moveSpeed = 5f; // 移動速度の調整用
     public float leftLimit = -5f; // 左の制限位置
     public float rightLimit = 5f; // 右の制限位置
 
-    public bool isDragging = false;
+    public bool isDragging = true;
+
+    [SerializeField] 
+    private Transform seedPosition;
 
 
     void Start()
     {
+        prefabList = animalAssets.prefabList;
         GenerateRandomObject();
+        Instance = this;
+        isNext = false;
+        MaxBallNo = animalAssets.prefabLis.Length;
     }
 
     void Update()
@@ -33,7 +45,7 @@ public class BallGenerator : MonoBehaviour
             {
                 isDragging = true;
                 DropObjects();
-                StartCoroutine(WaitAndEnableButton(2f));
+                Invoke("GenerateRandomObject", 2.0f);
 
             }
             else
@@ -102,6 +114,7 @@ public class BallGenerator : MonoBehaviour
 
         // 生成したオブジェクトをリストに追加
         generatedObjects.Add(newObject);
+        isDragging = false;
 
 
     }
@@ -145,9 +158,5 @@ public class BallGenerator : MonoBehaviour
         }
     }
 
-    IEnumerator WaitAndEnableButton(float waitTime)
-    {
-        yield return new WaitForSeconds(waitTime);
-
-    }
+    
 }

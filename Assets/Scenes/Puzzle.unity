@@ -951,12 +951,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fa3d1b48b8f498643a5dbb72ef9cb4fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  prefabList:
-  - {fileID: 476682591878862947, guid: 2ec1d047ab8a44e42a0a99d78a602745, type: 3}
-  - {fileID: 6132099042613982266, guid: 91732611d3625ce4abc3c8ff47f844d9, type: 3}
-  - {fileID: 6132099042613982266, guid: b8c0b94d0517cbb49a64b55f19143fe5, type: 3}
-  - {fileID: 6132099042613982266, guid: 066b0022a47c2dc429d2ee819d801d05, type: 3}
-  - {fileID: 6132099042613982266, guid: b0a45f9ffd53ef44380e77972de8cd0b, type: 3}
+  animalAssets: {fileID: 11400000, guid: b67623be8b9645445ab77327ea85f949, type: 2}
   generatedObjects: []
   moveSpeed: 5
   leftLimit: -3
