@@ -14,7 +14,10 @@ public class BallGenerator : MonoBehaviour
     public List<GameObject> generatedObjects = new List<GameObject>();
 
     public float moveSpeed = 5f; // 移動速度の調整用
-    private bool isDragging = false;
+    public float leftLimit = -5f; // 左の制限位置
+    public float rightLimit = 5f; // 右の制限位置
+
+    public bool isDragging = false;
 
 
     void Start()
@@ -30,11 +33,10 @@ public class BallGenerator : MonoBehaviour
             {
                 isDragging = true;
                 DropObjects();
-                Invoke("GenerateRandomObject", 2f);
-                isDragging = false;
-                
+                StartCoroutine(WaitAndEnableButton(2f));
+
             }
-            else if (isDragging == true)
+            else
             {
                 UnityEngine.Debug.Log(Time.time + ":呼び出せない…");
             }
@@ -45,18 +47,35 @@ public class BallGenerator : MonoBehaviour
         // Aキーが押されたら左に移動
         if (Input.GetKey(KeyCode.A))
         {
-            transform.Translate(Vector3.left * moveSpeed * Time.deltaTime);
+            MoveLeft();
         }
 
         // Dキーが押されたら右に移動
         if (Input.GetKey(KeyCode.D))
         {
-            transform.Translate(Vector3.right * moveSpeed * Time.deltaTime);
+            MoveRight();
         }
 
     }
 
-   
+    void MoveLeft()
+    {
+        // 左に移動する前に制限位置を確認
+        if (transform.position.x > leftLimit)
+        {
+            transform.Translate(Vector3.left * moveSpeed * Time.deltaTime);
+        }
+    }
+
+    void MoveRight()
+    {
+        // 右に移動する前に制限位置を確認
+        if (transform.position.x < rightLimit)
+        {
+            transform.Translate(Vector3.right * moveSpeed * Time.deltaTime);
+        }
+    }
+
 
     void GenerateRandomObject()
     {
@@ -83,6 +102,8 @@ public class BallGenerator : MonoBehaviour
 
         // 生成したオブジェクトをリストに追加
         generatedObjects.Add(newObject);
+
+
     }
 
     void DropObjects()
@@ -112,5 +133,21 @@ public class BallGenerator : MonoBehaviour
         // 1フレーム待ってから親子関係を解除
         yield return null;
         child.parent = null;
+    }
+
+    public void OnObjectCollision()
+    {
+        if (isDragging == true)
+        {
+            isDragging = false;
+            UnityEngine.Debug.Log("isDragging set to true");
+            GenerateRandomObject();
+        }
+    }
+
+    IEnumerator WaitAndEnableButton(float waitTime)
+    {
+        yield return new WaitForSeconds(waitTime);
+
     }
 }

@@ -706,7 +706,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1122569601
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -958,6 +958,10 @@ MonoBehaviour:
   - {fileID: 6132099042613982266, guid: 066b0022a47c2dc429d2ee819d801d05, type: 3}
   - {fileID: 6132099042613982266, guid: b0a45f9ffd53ef44380e77972de8cd0b, type: 3}
   generatedObjects: []
+  moveSpeed: 5
+  leftLimit: -3
+  rightLimit: 3
+  isDragging: 0
 --- !u!4 &1525762592
 Transform:
   m_ObjectHideFlags: 0
